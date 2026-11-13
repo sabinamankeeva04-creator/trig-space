@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тригонометрия ғарышы</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.js"></script>
+<style>
+@font-face{font-family:'JUZ40';src:url('juz40.woff') format('woff');font-weight:500;font-display:swap}
+@font-face{font-family:'JUZ40';src:url('juz40b.woff') format('woff');font-weight:700;font-display:swap}
+:root{--bg:#05061a;--panel:rgba(18,24,68,.82);--line:rgba(160,170,255,.28);--txt:#e9ecff;--mut:#9aa3e0;--cy:#7fe7ff;--vi:#c39bff;--pk:#ff8fc8;--gr:#6ff0a8;--rd:#ff5a5f;--yl:#ffd166}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'JUZ40',system-ui,sans-serif;color:var(--txt);background:var(--bg);overflow-x:hidden}
+#sky{position:fixed;inset:0;z-index:0;background:radial-gradient(60% 50% at 85% 10%,rgba(122,76,255,.35),transparent 70%),radial-gradient(55% 45% at 5% 95%,rgba(0,160,255,.25),transparent 70%),linear-gradient(180deg,#070a24,#05061a)}
+#sky canvas{width:100%;height:100%;display:block}
+.app{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:16px 16px 40px;min-height:100%}
+.top{display:flex;align-items:center;gap:12px;padding:6px 0 14px}
+.brand{font-weight:700;letter-spacing:2px;font-size:13px;color:var(--cy)}
+.sp{flex:1}
+.chip{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:30px;background:var(--panel);border:1px solid var(--line);font-size:14px;font-weight:700}
+.icon-btn{white-space:nowrap;background:var(--panel);border:1px solid var(--line);color:var(--txt);border-radius:30px;padding:7px 12px;font:inherit;font-size:13px;cursor:pointer}
+.screen{display:none;animation:fade .35s ease}
+.screen.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* start */
+.hero{text-align:center;padding:40px 0 10px}
+.hero .kick{display:inline-block;padding:6px 14px;border-radius:30px;border:1px solid var(--line);color:var(--mut);font-size:12px;letter-spacing:2px}
+.hero h1{font-size:clamp(38px,8vw,78px);line-height:1;margin:18px 0 6px;letter-spacing:-1px;text-shadow:0 0 30px rgba(140,120,255,.6)}
+.hero h1 em{display:block;font-style:normal;font-size:.45em;letter-spacing:4px;margin-top:10px;background:linear-gradient(90deg,var(--cy),var(--vi),var(--pk));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:#cfd5ff;max-width:520px;margin:16px auto 26px;line-height:1.55;font-size:16px}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:40px;padding:15px 30px;font:inherit;font-weight:700;font-size:17px;cursor:pointer;color:#070a24;background:linear-gradient(90deg,var(--cy),var(--vi));box-shadow:0 8px 30px rgba(127,231,255,.25);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line);box-shadow:none}
+.rocket-hero{width:120px;margin:10px auto 0;animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px) rotate(3deg)}}
+.rules{max-width:620px;margin:22px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rules div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;font-size:13px;color:#cfd5ff;line-height:1.45;text-align:left}
+.rules b{display:block;color:#fff;font-size:15px;margin-bottom:4px}
+/* map */
+.maph{display:flex;align-items:flex-end;gap:12px;margin:4px 0 14px}
+.maph h2{font-size:26px}
+.maph small{color:var(--mut);font-size:14px}
+.map{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.pl{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px;cursor:pointer;text-align:left;color:var(--txt);font:inherit;transition:transform .15s,border-color .15s;overflow:hidden}
+.pl:hover:not([disabled]){transform:translateY(-3px);border-color:var(--cy)}
+.pl[disabled]{opacity:.45;cursor:not-allowed}
+.pl .orb{width:58px;height:58px;border-radius:50%;margin-bottom:10px;box-shadow:0 0 24px var(--c)}
+.pl .n{font-size:11px;letter-spacing:2px;color:var(--mut);font-weight:700}
+.pl .t{font-size:17px;font-weight:700;margin:3px 0 6px}
+.pl .d{font-size:13px;color:#cfd5ff;line-height:1.35;min-height:36px}
+.pl .st{margin-top:10px;display:flex;gap:3px}
+.star{width:18px;height:18px}
+.lock{position:absolute;right:14px;top:14px;font-size:12px;color:var(--mut)}
+.rank{margin-top:16px;background:linear-gradient(120deg,rgba(127,231,255,.12),rgba(195,155,255,.14));border:1px solid var(--line);border-radius:18px;padding:14px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.rank b{font-size:18px}
+.rank span{color:#cfd5ff;font-size:14px}
+/* play */
+.hud{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.hud .pname{font-weight:700;font-size:15px}
+.shields{display:flex;gap:4px}
+.shield{width:22px;height:22px}
+.tbar{height:8px;border-radius:8px;background:rgba(255,255,255,.1);overflow:hidden;margin:4px 0 14px}
+.tbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gr),var(--yl),var(--rd));transform-origin:left;transition:transform .1s linear}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:22px}
+.qn{font-size:12px;letter-spacing:2px;color:var(--mut);font-weight:700}
+.qt{font-size:22px;line-height:1.45;margin:8px 0 18px}
+.qt .katex{font-size:1.12em}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{background:rgba(255,255,255,.05);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--txt);font:inherit;font-size:18px;text-align:left;cursor:pointer;min-height:58px;display:flex;align-items:center;gap:10px;transition:border-color .15s,background .15s}
+.opt:hover:not([disabled]){border-color:var(--cy);background:rgba(127,231,255,.08)}
+.opt .k{width:26px;height:26px;border-radius:8px;background:rgba(255,255,255,.1);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+.opt.ok{border-color:var(--gr);background:rgba(111,240,168,.14)}
+.opt.no{border-color:var(--rd);background:rgba(255,90,95,.14)}
+.fb{margin-top:14px;min-height:24px;font-size:15px;line-height:1.5}
+.fb.ok{color:var(--gr)}.fb.no{color:#ffb3b5}
+.next{margin-top:14px;display:none}
+.combo{font-size:13px;color:var(--yl);font-weight:700}
+/* radar */
+.radar{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.radar svg{width:min(380px,100%);height:auto;touch-action:manipulation}
+.radar .pt{cursor:pointer}
+.radar .pt circle{transition:r .15s}
+.radar .pt:hover circle.c{r:11}
+/* result */
+.res{text-align:center;padding:26px 10px}
+.res h2{font-size:32px;margin:10px 0}
+.res .big{display:flex;justify-content:center;gap:8px;margin:14px 0}
+.res .big .star{width:52px;height:52px}
+.res p{color:#cfd5ff;font-size:16px;line-height:1.5}
+.res .acts{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.tip{margin-top:18px;background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.4);border-radius:14px;padding:12px 16px;color:#ffe7a6;font-size:14px;text-align:left;line-height:1.5}
+@media (max-width:640px){.opts{grid-template-columns:1fr}.rules{grid-template-columns:1fr}.qt{font-size:19px}.hero{padding-top:20px}}
+</style>
+</head>
+<body>
+<div id="sky"><canvas id="cv"></canvas></div>
+<div class="app">
+  <div class="top"><div class="brand">JUZO · МАТЕМАТИКА</div><div class="sp"></div>
+    <div class="chip" title="Жиналған жұлдыздар"><svg class="star" viewBox="0 0 24 24"><path d="M12 1.5l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.6 5.6 21.1 7 14l-5.3-5 7.2-.9z" fill="#ffd166"/></svg><span id="totStars">0</span>/21</div>
+    <button class="icon-btn" id="snd" aria-label="Дыбыс">Дыбыс</button></div>
+
+  <section class="screen on" id="sStart">
+    <div class="hero">
+      <span class="kick">ТРИГОНОМЕТРИЯЛЫҚ МИССИЯ</span>
+      <h1>ТРИГОНОМЕТРИЯ<em>ҒАРЫШЫ</em></h1>
+      <div class="rocket-hero" id="heroRocket"></div>
+      <p>Зымыранды 7 планета арқылы өткіз! Әр планетада — 8 сұрақ. Дұрыс жауап жұлдыз әкеледі, қате жауап қалқанды бұзады.</p>
+      <button class="btn" id="go">Ұшуды бастау ▸</button>
+    </div>
+    <div class="rules">
+      <div><b>3 қалқан</b>Әр қате жауап бір қалқанды алады. Қалқан бітсе — миссия қайта басталады.</div>
+      <div><b>Уақыт</b>Әр сұраққа 25 секунд. Тез жауап берсең — қосымша ұпай.</div>
+      <div><b>Жұлдыздар</b>8/8 → ★★★, 6/8 → ★★, планетадан өтсең → ★. Келесі планета ашылады.</div>
+    </div>
+  </section>
+
+  <section class="screen" id="sMap">
+    <div class="maph"><h2>Ғалам картасы</h2><small id="mapSub"></small></div>
+    <div class="map" id="map"></div>
+    <div class="rank" id="rank"></div>
+  </section>
+
+  <section class="screen" id="sPlay">
+    <div class="hud"><button class="icon-btn" id="quit">← Карта</button><span class="pname" id="pName"></span><div class="sp"></div>
+      <span class="combo" id="combo"></span><div class="chip">Ұпай: <span id="score">0</span></div><div class="shields" id="shields"></div></div>
+    <div class="tbar"><i id="tbar"></i></div>
+    <div class="card" id="qcard">
+      <div class="qn" id="qn"></div>
+      <div class="qt" id="qt"></div>
+      <div id="area"></div>
+      <div class="fb" id="fb"></div>
+      <button class="btn next" id="next">Келесі ▸</button>
+    </div>
+  </section>
+
+  <section class="screen" id="sRes"><div class="card res" id="res"></div></section>
+</div>
+
+<script>
+'use strict';
+// ---------- helpers ----------
+const $=s=>document.querySelector(s);
+const R=(s,el)=>{try{katex.render(s,el,{throwOnError:false,strict:'ignore'})}catch(e){el.textContent=s}};
+function rich(el,txt){ // text with $..$ math
+  el.innerHTML='';
+  txt.split(/(\$[^$]+\$)/).forEach(p=>{ if(!p) return; const sp=document.createElement('span');
+    if(p.startsWith('$')) R(p.slice(1,-1),sp); else sp.textContent=p; el.appendChild(sp); });
+}
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const STAR=(on)=>`<svg class="star" viewBox="0 0 24 24"><path d="M12 1.5l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.6 5.6 21.1 7 14l-5.3-5 7.2-.9z" fill="${on?'#ffd166':'rgba(255,255,255,.18)'}"/></svg>`;
+const SHIELD=(on)=>`<svg class="shield" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.4 9.3-8 11-4.6-1.7-8-6-8-11V5z" fill="${on?'#7fe7ff':'rgba(255,255,255,.15)'}"/></svg>`;
+const ROCKET=`<svg viewBox="0 0 120 220"><path d="M60 4 C92 36 96 100 88 150 L32 150 C24 100 28 36 60 4Z" fill="#f2f3f6"/><path d="M60 4 C74 18 82 34 86 52 L34 52 C38 34 46 18 60 4Z" fill="#ff5a5f"/><circle cx="60" cy="88" r="16" fill="#0b1240" stroke="#7fb3ff" stroke-width="5"/><path d="M32 118 L8 168 L34 156Z" fill="#5a6cff"/><path d="M88 118 L112 168 L86 156Z" fill="#5a6cff"/><path d="M40 152 Q60 225 80 152Z" fill="#ffd166"/></svg>`;
+$('#heroRocket').innerHTML=ROCKET;
+
+// ---------- sound ----------
+let sound=true, actx=null;
+function beep(f,d=.12,type='sine',v=.06){ if(!sound) return; try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+  const o=actx.createOscillator(),g=actx.createGain(); o.type=type;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(actx.destination);
+  const t=actx.currentTime; g.gain.exponentialRampToValueAtTime(.0001,t+d); o.start(t); o.stop(t+d);}catch(e){} }
+const sOk=()=>{beep(660,.1);setTimeout(()=>beep(880,.14),90)}, sNo=()=>beep(180,.25,'sawtooth',.05), sWin=()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.16),i*110));
+$('#snd').onclick=()=>{sound=!sound;$('#snd').textContent=sound?'Дыбыс':'Дыбыссыз'};
+
+// ---------- star field ----------
+(function(){const cv=$('#cv'),cx=cv.getContext('2d');let W,H,st=[];
+function rs(){W=cv.width=innerWidth*devicePixelRatio;H=cv.height=innerHeight*devicePixelRatio;st=Array.from({length:220},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.3,s:Math.random()*.3+.05,a:Math.random()}))}
+addEventListener('resize',rs);rs();
+(function fr(){cx.clearRect(0,0,W,H);for(const p of st){p.y+=p.s*devicePixelRatio;if(p.y>H){p.y=0;p.x=Math.random()*W}p.a+=.02;cx.globalAlpha=.45+.45*Math.sin(p.a);cx.fillStyle='#fff';cx.beginPath();cx.arc(p.x,p.y,p.r*devicePixelRatio,0,7);cx.fill()}requestAnimationFrame(fr)})();})();
+
+// ---------- data ----------
+// exact values by degree (0..330)
+const SIN={0:'0',30:'\\tfrac12',45:'\\tfrac{\\sqrt2}2',60:'\\tfrac{\\sqrt3}2',90:'1'}, TG={0:'0',30:'\\tfrac{\\sqrt3}3',45:'1',60:'\\sqrt3'}, CTG={30:'\\sqrt3',45:'1',60:'\\tfrac{\\sqrt3}3',90:'0'};
+function ref(d){d=((d%360)+360)%360;if(d<=90)return[d,1,1];if(d<=180)return[180-d,1,-1];if(d<=270)return[d-180,-1,-1];return[360-d,-1,1]}
+function neg(s){return s==='0'?'0':(s.startsWith('-')?s.slice(1):'-'+s)}
+function val(fn,d){const [r,ss,cs]=ref(d);
+  if(fn==='sin'){const v=SIN[r];return ss<0?neg(v):v}
+  if(fn==='cos'){const v=SIN[90-r];return cs<0?neg(v):v}
+  const sg=ss*cs;
+  if(fn==='tg'){ if(r===90) return null; const v=TG[r]; return sg<0?neg(v):v}
+  if(fn==='ctg'){ if(r===0) return null; const v=CTG[r]; return sg<0?neg(v):v} }
+const RAD={0:'0',30:'\\tfrac\\pi6',45:'\\tfrac\\pi4',60:'\\tfrac\\pi3',90:'\\tfrac\\pi2',120:'\\tfrac{2\\pi}3',135:'\\tfrac{3\\pi}4',150:'\\tfrac{5\\pi}6',180:'\\pi',210:'\\tfrac{7\\pi}6',225:'\\tfrac{5\\pi}4',240:'\\tfrac{4\\pi}3',270:'\\tfrac{3\\pi}2',300:'\\tfrac{5\\pi}3',315:'\\tfrac{7\\pi}4',330:'\\tfrac{11\\pi}6'};
+const ANG=[0,30,45,60,90,120,135,150,180,210,225,240,270,300,315,330];
+const ALLV=['0','1','-1','\\tfrac12','-\\tfrac12','\\tfrac{\\sqrt2}2','-\\tfrac{\\sqrt2}2','\\tfrac{\\sqrt3}2','-\\tfrac{\\sqrt3}2','\\sqrt3','-\\sqrt3','\\tfrac{\\sqrt3}3','-\\tfrac{\\sqrt3}3'];
+
+function genValues(n){ const out=[];const used=new Set();
+  while(out.length<n){ const fn=['sin','cos','sin','cos','tg','ctg'][Math.floor(Math.random()*6)]; const d=ANG[Math.floor(Math.random()*ANG.length)];
+    const v=val(fn,d); if(v===null||used.has(fn+d)) continue; used.add(fn+d);
+    const useRad=Math.random()<.55; const arg=useRad?RAD[d]:d+'^\\circ';
+    const fname=fn==='tg'?'\\operatorname{tg}':fn==='ctg'?'\\operatorname{ctg}':'\\'+fn;
+    const pool=shuffle(ALLV.filter(x=>x!==v)); const opts=[v,neg(v)!==v?neg(v):pool[3],pool[0],pool[1]].filter((x,i,a)=>a.indexOf(x)===i).slice(0,4);
+    while(opts.length<4){const p=pool.find(x=>!opts.includes(x));opts.push(p)}
+    out.push({q:`Есепте: $${fname}\\,${arg}$`,o:opts,a:0}); }
+  return out; }
+
+function genRadar(n){ const out=[];const ds=shuffle(ANG.filter(d=>d!==0)).slice(0,n);
+  ds.forEach((d,i)=>{ let label; const r=Math.random();
+    if(i%4===1) label=d+'^\\circ';
+    else if(i%4===3 && d>180){ const m={210:'-\\tfrac{5\\pi}6',225:'-\\tfrac{3\\pi}4',240:'-\\tfrac{2\\pi}3',270:'-\\tfrac\\pi2',300:'-\\tfrac\\pi3',315:'-\\tfrac\\pi4',330:'-\\tfrac\\pi6'}; label=m[d]; }
+    else if(i%4===2 && d<=90){ const m={30:'\\tfrac{13\\pi}6',45:'\\tfrac{9\\pi}4',60:'\\tfrac{7\\pi}3',90:'\\tfrac{5\\pi}2'}; label=m[d]; }
+    else label=RAD[d];
+    out.push({radar:true,deg:d,q:`Бірлік шеңберде бұрышқа сәйкес нүктені тап: $\\alpha=${label}$`}); });
+  return out; }
+
+const P=[
+ {id:'mercury',name:'МЕРКУРИЙ',title:'Бірлік шеңбер радары',desc:'Бұрыштың шеңбердегі нүктесін тап',c:'#ffb347',gen:()=>genRadar(8),
+  tip:'Толық айналым $2\\pi$ — оны алып тастасаң, бұрыш өзгермейді. Теріс бұрыш сағат тілі бағытымен өлшенеді.'},
+ {id:'venus',name:'ШОЛПАН',title:'Мәндер кестесі',desc:'sin, cos, tg, ctg мәндерін ширекпен',c:'#ff8a5c',gen:()=>genValues(8),
+  tip:'Алдымен сүйір бұрыштың мәнін ал, сосын ширек бойынша таңбаны қой: I — бәрі +, II — sin, III — tg, ctg, IV — cos.'},
+ {id:'earth',name:'ЖЕР',title:'Тепе-теңдік және келтіру',desc:'Негізгі тепе-теңдік, келтіру ережесі',c:'#4fc3f7',bank:[
+  ['$\\sin^2\\alpha+\\cos^2\\alpha=\\ ?$',['1','0','2','\\sin2\\alpha']],
+  ['$1+\\operatorname{tg}^2\\alpha=\\ ?$',['\\dfrac1{\\cos^2\\alpha}','\\dfrac1{\\sin^2\\alpha}','\\cos^2\\alpha','1']],
+  ['Ықшамда: $\\sin(\\pi-\\alpha)$',['\\sin\\alpha','-\\sin\\alpha','\\cos\\alpha','-\\cos\\alpha']],
+  ['Ықшамда: $\\cos\\left(\\tfrac\\pi2+\\alpha\\right)$',['-\\sin\\alpha','\\sin\\alpha','\\cos\\alpha','-\\cos\\alpha']],
+  ['Ықшамда: $\\operatorname{tg}(\\pi+\\alpha)$',['\\operatorname{tg}\\alpha','-\\operatorname{tg}\\alpha','\\operatorname{ctg}\\alpha','-\\operatorname{ctg}\\alpha']],
+  ['Ықшамда: $\\cos(-\\alpha)$',['\\cos\\alpha','-\\cos\\alpha','\\sin\\alpha','-\\sin\\alpha']],
+  ['$\\sin\\alpha=\\tfrac35$, $\\tfrac\\pi2<\\alpha<\\pi$. $\\cos\\alpha=\\ ?$',['-\\tfrac45','\\tfrac45','-\\tfrac34','\\tfrac34']],
+  ['$\\operatorname{tg}\\alpha=2$. $\\operatorname{ctg}\\alpha=\\ ?$',['\\tfrac12','-2','2','-\\tfrac12']],
+  ['$\\cos\\alpha=0{,}8$, $\\alpha$ — IV ширек. $\\sin\\alpha=\\ ?$',['-0{,}6','0{,}6','-0{,}8','0{,}75']],
+  ['Есепте: $\\sin150^\\circ$',['\\tfrac12','-\\tfrac12','\\tfrac{\\sqrt3}2','-\\tfrac{\\sqrt3}2']],
+  ['Есепте: $\\cos240^\\circ$',['-\\tfrac12','\\tfrac12','-\\tfrac{\\sqrt3}2','\\tfrac{\\sqrt3}2']],
+  ['Ықшамда: $\\sin\\left(\\tfrac{3\\pi}2-\\alpha\\right)$',['-\\cos\\alpha','\\cos\\alpha','\\sin\\alpha','-\\sin\\alpha']]],
+  tip:'Келтіру: $\\tfrac\\pi2$ не $\\tfrac{3\\pi}2$ — функция атауы ауысады; $\\pi$ не $2\\pi$ — ауыспайды. Таңба — бастапқы функцияның сол ширектегі таңбасы.'},
+ {id:'mars',name:'МАРС',title:'Қосу және қос бұрыш',desc:'Қосу, қос бұрыш, дәрежені төмендету',c:'#ff5a5f',bank:[
+  ['$\\sin(\\alpha+\\beta)=\\ ?$',['\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta','\\sin\\alpha\\cos\\beta-\\cos\\alpha\\sin\\beta','\\cos\\alpha\\cos\\beta-\\sin\\alpha\\sin\\beta','\\sin\\alpha+\\sin\\beta']],
+  ['$\\cos(\\alpha-\\beta)=\\ ?$',['\\cos\\alpha\\cos\\beta+\\sin\\alpha\\sin\\beta','\\cos\\alpha\\cos\\beta-\\sin\\alpha\\sin\\beta','\\sin\\alpha\\cos\\beta-\\cos\\alpha\\sin\\beta','\\cos\\alpha-\\cos\\beta']],
+  ['$\\sin2\\alpha=\\ ?$',['2\\sin\\alpha\\cos\\alpha','2\\sin\\alpha','\\sin^2\\alpha-\\cos^2\\alpha','2\\cos\\alpha']],
+  ['$\\cos2\\alpha=\\ ?$',['1-2\\sin^2\\alpha','2\\sin^2\\alpha-1','1-2\\cos^2\\alpha','2\\sin\\alpha\\cos\\alpha']],
+  ['Есепте: $2\\sin15^\\circ\\cos15^\\circ$',['\\tfrac12','\\tfrac{\\sqrt3}2','1','\\tfrac{\\sqrt2}2']],
+  ['Есепте: $\\cos^215^\\circ-\\sin^215^\\circ$',['\\tfrac{\\sqrt3}2','\\tfrac12','1','\\tfrac{\\sqrt2}2']],
+  ['Есепте: $\\sin75^\\circ$',['\\tfrac{\\sqrt6+\\sqrt2}4','\\tfrac{\\sqrt6-\\sqrt2}4','\\tfrac{\\sqrt3}2','\\tfrac{\\sqrt3+1}2']],
+  ['$\\sin^2\\alpha=\\ ?$',['\\dfrac{1-\\cos2\\alpha}2','\\dfrac{1+\\cos2\\alpha}2','\\dfrac{1-\\cos\\alpha}2','\\dfrac{1-\\sin2\\alpha}2']],
+  ['$\\sin\\alpha=0{,}6$, $\\cos\\alpha=0{,}8$. $\\sin2\\alpha=\\ ?$',['0{,}96','1{,}2','0{,}48','0{,}28']],
+  ['$\\cos\\alpha=\\tfrac13$. $\\cos2\\alpha=\\ ?$',['-\\tfrac79','\\tfrac79','\\tfrac29','-\\tfrac19']],
+  ['$\\operatorname{tg}\\alpha=2,\\ \\operatorname{tg}\\beta=3$. $\\operatorname{tg}(\\alpha+\\beta)=\\ ?$',['-1','5','1','-5']],
+  ['$\\sin\\alpha+\\cos\\alpha=\\tfrac12$. $\\sin2\\alpha=\\ ?$',['-\\tfrac34','\\tfrac34','\\tfrac14','-\\tfrac14']]],
+  tip:'Косинустың қосу формуласында таңба керісінше: $\\cos(\\alpha+\\beta)=\\cos\\alpha\\cos\\beta-\\sin\\alpha\\sin\\beta$. Ал $(\\sin\\alpha+\\cos\\alpha)^2=1+\\sin2\\alpha$.'},
+ {id:'jupiter',name:'ЮПИТЕР',title:'Түрлендіру және кері функциялар',desc:'Қосынды ↔ көбейтінді, arcsin, arccos, arctg',c:'#c39bff',bank:[
+  ['$\\sin\\alpha+\\sin\\beta=\\ ?$',['2\\sin\\tfrac{\\alpha+\\beta}2\\cos\\tfrac{\\alpha-\\beta}2','2\\cos\\tfrac{\\alpha+\\beta}2\\sin\\tfrac{\\alpha-\\beta}2','2\\sin\\tfrac{\\alpha+\\beta}2\\sin\\tfrac{\\alpha-\\beta}2','\\sin(\\alpha+\\beta)']],
+  ['$\\cos\\alpha-\\cos\\beta=\\ ?$',['-2\\sin\\tfrac{\\alpha+\\beta}2\\sin\\tfrac{\\alpha-\\beta}2','2\\sin\\tfrac{\\alpha+\\beta}2\\sin\\tfrac{\\alpha-\\beta}2','-2\\cos\\tfrac{\\alpha+\\beta}2\\cos\\tfrac{\\alpha-\\beta}2','2\\cos\\tfrac{\\alpha+\\beta}2\\sin\\tfrac{\\alpha-\\beta}2']],
+  ['Есепте: $\\cos75^\\circ+\\cos15^\\circ$',['\\tfrac{\\sqrt6}2','\\tfrac{\\sqrt2}2','\\tfrac{\\sqrt3}2','1']],
+  ['Есепте: $\\sin75^\\circ-\\sin15^\\circ$',['\\tfrac{\\sqrt2}2','\\tfrac{\\sqrt6}2','\\tfrac12','\\tfrac{\\sqrt3}2']],
+  ['Есепте: $\\arcsin\\tfrac12$',['\\tfrac\\pi6','\\tfrac\\pi3','\\tfrac{5\\pi}6','\\tfrac\\pi4']],
+  ['Есепте: $\\arccos\\left(-\\tfrac12\\right)$',['\\tfrac{2\\pi}3','-\\tfrac\\pi3','\\tfrac\\pi3','\\tfrac{4\\pi}3']],
+  ['Есепте: $\\operatorname{arctg}(-\\sqrt3)$',['-\\tfrac\\pi3','\\tfrac{2\\pi}3','-\\tfrac\\pi6','\\tfrac{5\\pi}6']],
+  ['Есепте: $\\arcsin\\left(-\\tfrac{\\sqrt2}2\\right)$',['-\\tfrac\\pi4','\\tfrac{3\\pi}4','\\tfrac\\pi4','\\tfrac{5\\pi}4']],
+  ['$\\arcsin a+\\arccos a=\\ ?$',['\\tfrac\\pi2','\\pi','0','2\\pi']],
+  ['Есепте: $\\cos\\left(\\arcsin\\tfrac35\\right)$',['\\tfrac45','\\tfrac35','\\tfrac34','-\\tfrac45']],
+  ['$\\arccos a$ мәндер аралығы',['[0;\\pi]','\\left[-\\tfrac\\pi2;\\tfrac\\pi2\\right]','(0;\\pi)','\\left(-\\tfrac\\pi2;\\tfrac\\pi2\\right)']],
+  ['$\\arccos(-a)=\\ ?$',['\\pi-\\arccos a','-\\arccos a','\\arccos a','\\tfrac\\pi2-\\arccos a']]],
+  tip:'$\\arcsin$ мәні $\\left[-\\tfrac\\pi2;\\tfrac\\pi2\\right]$, $\\arccos$ мәні $[0;\\pi]$ аралығында. $\\arccos(-a)=\\pi-\\arccos a$.'},
+ {id:'saturn',name:'САТУРН',title:'Тригонометриялық теңдеулер',desc:'Жалпы шешім, дербес жағдайлар',c:'#ffd166',bank:[
+  ['Шеш: $\\sin x=0$',['\\pi k','\\tfrac\\pi2+\\pi k','2\\pi k','\\tfrac\\pi2+2\\pi k']],
+  ['Шеш: $\\cos x=0$',['\\tfrac\\pi2+\\pi k','\\pi k','2\\pi k','\\pi+2\\pi k']],
+  ['Шеш: $\\cos x=1$',['2\\pi k','\\pi k','\\tfrac\\pi2+2\\pi k','\\pi+2\\pi k']],
+  ['Шеш: $\\sin x=\\tfrac12$',['(-1)^k\\tfrac\\pi6+\\pi k','\\pm\\tfrac\\pi6+2\\pi k','(-1)^k\\tfrac\\pi3+\\pi k','\\tfrac\\pi6+\\pi k']],
+  ['Шеш: $\\cos x=\\tfrac{\\sqrt2}2$',['\\pm\\tfrac\\pi4+2\\pi k','(-1)^k\\tfrac\\pi4+\\pi k','\\tfrac\\pi4+\\pi k','\\pm\\tfrac\\pi4+\\pi k']],
+  ['Шеш: $\\operatorname{tg}x=\\sqrt3$',['\\tfrac\\pi3+\\pi k','\\tfrac\\pi6+\\pi k','\\tfrac\\pi3+2\\pi k','\\pm\\tfrac\\pi3+\\pi k']],
+  ['Шеш: $\\sin x=2$',['\\text{шешімі жоқ}','\\arcsin2+2\\pi k','\\tfrac\\pi2+\\pi k','2\\pi k']],
+  ['Шеш: $\\cos x=-1$',['\\pi+2\\pi k','\\pi k','-\\tfrac\\pi2+2\\pi k','2\\pi k']],
+  ['Шеш: $2\\cos x+1=0$',['\\pm\\tfrac{2\\pi}3+2\\pi k','\\pm\\tfrac\\pi3+2\\pi k','\\pm\\tfrac{2\\pi}3+\\pi k','(-1)^k\\tfrac{2\\pi}3+\\pi k']],
+  ['Шеш: $\\sin2x=0$',['\\tfrac{\\pi k}2','\\pi k','2\\pi k','\\tfrac\\pi2+\\pi k']],
+  ['$[0;2\\pi]$ аралығында $\\sin x=0$ теңдеуінің неше түбірі бар?',['3','2','1','4']],
+  ['Шеш: $\\sin x-\\cos x=0$',['\\tfrac\\pi4+\\pi k','\\tfrac\\pi4+2\\pi k','-\\tfrac\\pi4+\\pi k','\\pm\\tfrac\\pi4+2\\pi k']]],
+  tip:'$\\sin x=a$: $(-1)^k\\arcsin a+\\pi k$; $\\cos x=a$: $\\pm\\arccos a+2\\pi k$; $\\operatorname{tg}x=a$: $\\operatorname{arctg}a+\\pi k$. $|a|>1$ болса — шешімі жоқ.'},
+ {id:'neptune',name:'НЕПТУН',title:'Тригонометриялық теңсіздіктер',desc:'Бірлік шеңбердегі доғалар · босс-деңгей',c:'#5a7bff',time:20,bank:[
+  ['Шеш: $\\sin x>0$',['(2\\pi k;\\ \\pi+2\\pi k)','\\left(-\\tfrac\\pi2+2\\pi k;\\ \\tfrac\\pi2+2\\pi k\\right)','(\\pi k;\\ \\pi+\\pi k)','(\\pi+2\\pi k;\\ 2\\pi+2\\pi k)']],
+  ['Шеш: $\\cos x>0$',['\\left(-\\tfrac\\pi2+2\\pi k;\\ \\tfrac\\pi2+2\\pi k\\right)','(2\\pi k;\\ \\pi+2\\pi k)','\\left(-\\tfrac\\pi2+\\pi k;\\ \\tfrac\\pi2+\\pi k\\right)','\\left(\\tfrac\\pi2+2\\pi k;\\ \\tfrac{3\\pi}2+2\\pi k\\right)']],
+  ['Шеш: $\\sin x\\ge\\tfrac12$',['\\left[\\tfrac\\pi6+2\\pi k;\\ \\tfrac{5\\pi}6+2\\pi k\\right]','\\left[\\tfrac\\pi3+2\\pi k;\\ \\tfrac{2\\pi}3+2\\pi k\\right]','\\left[-\\tfrac\\pi6+2\\pi k;\\ \\tfrac\\pi6+2\\pi k\\right]','\\left[\\tfrac\\pi6+\\pi k;\\ \\tfrac{5\\pi}6+\\pi k\\right]']],
+  ['Шеш: $\\cos x<\\tfrac12$',['\\left(\\tfrac\\pi3+2\\pi k;\\ \\tfrac{5\\pi}3+2\\pi k\\right)','\\left(-\\tfrac\\pi3+2\\pi k;\\ \\tfrac\\pi3+2\\pi k\\right)','\\left(\\tfrac\\pi6+2\\pi k;\\ \\tfrac{11\\pi}6+2\\pi k\\right)','\\left(\\tfrac\\pi3+\\pi k;\\ \\tfrac{5\\pi}3+\\pi k\\right)']],
+  ['Шеш: $\\operatorname{tg}x>1$',['\\left(\\tfrac\\pi4+\\pi k;\\ \\tfrac\\pi2+\\pi k\\right)','\\left(\\tfrac\\pi4+2\\pi k;\\ \\tfrac\\pi2+2\\pi k\\right)','\\left(-\\tfrac\\pi2+\\pi k;\\ \\tfrac\\pi4+\\pi k\\right)','\\left(\\tfrac\\pi4+\\pi k;\\ \\tfrac{3\\pi}4+\\pi k\\right)']],
+  ['Шеш: $\\sin x\\le1$',['x\\in\\mathbb R','\\text{шешімі жоқ}','\\tfrac\\pi2+2\\pi k','[-1;1]']],
+  ['Шеш: $\\cos x<-1$',['\\text{шешімі жоқ}','x\\in\\mathbb R','\\pi+2\\pi k','[-1;1]']],
+  ['Шеш: $\\operatorname{tg}x\\le\\sqrt3$',['\\left(-\\tfrac\\pi2+\\pi k;\\ \\tfrac\\pi3+\\pi k\\right]','\\left[\\tfrac\\pi3+\\pi k;\\ \\tfrac\\pi2+\\pi k\\right)','\\left(-\\tfrac\\pi3+\\pi k;\\ \\tfrac\\pi3+\\pi k\\right]','\\left(-\\tfrac\\pi2+2\\pi k;\\ \\tfrac\\pi3+2\\pi k\\right]']],
+  ['$[0;2\\pi]$ аралығында шеш: $\\sin x<0$',['(\\pi;\\ 2\\pi)','(0;\\ \\pi)','\\left(\\tfrac\\pi2;\\ \\tfrac{3\\pi}2\\right)','[\\pi;\\ 2\\pi]']],
+  ['Шеш: $\\sin x<\\tfrac12$',['\\left(-\\tfrac{7\\pi}6+2\\pi k;\\ \\tfrac\\pi6+2\\pi k\\right)','\\left(\\tfrac{5\\pi}6+2\\pi k;\\ \\tfrac\\pi6+2\\pi k\\right)','\\left(\\tfrac\\pi6+2\\pi k;\\ \\tfrac{5\\pi}6+2\\pi k\\right)','\\left(-\\tfrac\\pi6+2\\pi k;\\ \\tfrac{7\\pi}6+2\\pi k\\right)']],
+  ['Шеш: $\\cos x\\ge-\\tfrac{\\sqrt2}2$',['\\left[-\\tfrac{3\\pi}4+2\\pi k;\\ \\tfrac{3\\pi}4+2\\pi k\\right]','\\left[\\tfrac{3\\pi}4+2\\pi k;\\ \\tfrac{5\\pi}4+2\\pi k\\right]','\\left[-\\tfrac\\pi4+2\\pi k;\\ \\tfrac\\pi4+2\\pi k\\right]','\\left[-\\tfrac{3\\pi}4+\\pi k;\\ \\tfrac{3\\pi}4+\\pi k\\right]']],
+  ['$[0;2\\pi]$ аралығында жүйені шеш: $\\sin x>0,\\ \\cos x>0$',['\\left(0;\\ \\tfrac\\pi2\\right)','\\left(\\tfrac\\pi2;\\ \\pi\\right)','(0;\\ \\pi)','\\left(\\tfrac{3\\pi}2;\\ 2\\pi\\right)']]],
+  tip:'Доғаны сағат тіліне қарсы оқы — сол ұшы оң ұшынан кіші болуы керек. $\\sin,\\cos$ периоды $2\\pi$, ал $\\operatorname{tg}$ периоды $\\pi$.'}
+];
+const RANKS=[[0,'Кадет','Алғашқы ұшуға дайындал!'],[5,'Ұшқыш','Орбитаға шықтың!'],[10,'Капитан','Галактика сені таниды!'],[15,'Командир','Тригонометрия флоты сенің қолыңда!'],[19,'Ғалам адмиралы','Сен — тригонометрия ғаламының шебері!']];
+
+// ---------- state ----------
+let save={stars:{}};
+try{const s=localStorage.getItem('trig-space');if(s)save=JSON.parse(s)}catch(e){}
+const persist=()=>{try{localStorage.setItem('trig-space',JSON.stringify(save))}catch(e){}};
+const total=()=>Object.values(save.stars).reduce((a,b)=>a+b,0);
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));scrollTo(0,0)}
+
+function renderMap(){ $('#totStars').textContent=total();
+  const m=$('#map'); m.innerHTML='';
+  P.forEach((p,i)=>{ const unlocked=i===0||(save.stars[P[i-1].id]||0)>0; const s=save.stars[p.id]||0;
+    const b=document.createElement('button'); b.className='pl'; b.disabled=!unlocked; b.style.setProperty('--c',p.c);
+    b.innerHTML=`<div class="orb" style="background:radial-gradient(circle at 32% 30%,#fff 0,${p.c} 28%,#0b0f33 100%)"></div><div class="n">${String(i+1).padStart(2,'0')} · ${p.name}</div><div class="t">${p.title}</div><div class="d">${p.desc}</div><div class="st">${[0,1,2].map(k=>STAR(k<s)).join('')}</div>${unlocked?'':'<span class="lock">жабық</span>'}`;
+    b.onclick=()=>{beep(520,.08);start(i)}; m.appendChild(b); });
+  const t=total(); let rk=RANKS[0]; RANKS.forEach(r=>{if(t>=r[0])rk=r});
+  $('#rank').innerHTML=`<svg width="40" height="40" viewBox="0 0 120 220">${ROCKET.replace(/^<svg[^>]*>|<\/svg>$/g,'')}</svg><div><b>Атағың: ${rk[1]}</b><br><span>${rk[2]} Жұлдыздар: ${t}/21</span></div>`;
+  $('#mapSub').textContent='Планетаны таңда — келесісі алдыңғысынан өткенде ашылады'; }
+
+// ---------- play ----------
+let G=null, timer=null;
+function start(i){ const p=P[i]; const qs=p.gen?p.gen():shuffle(p.bank).slice(0,8).map(([q,o])=>({q,o,a:0}));
+  G={i,p,qs,k:0,ok:0,lives:3,score:0,combo:0,time:p.time||25}; $('#pName').textContent=`${String(i+1).padStart(2,'0')} · ${p.name} — ${p.title}`;
+  $('#score').textContent=0; drawShields(); show('sPlay'); ask(); }
+function drawShields(){ $('#shields').innerHTML=[0,1,2].map(k=>SHIELD(k<G.lives)).join('') }
+function ask(){ const q=G.qs[G.k]; $('#qn').textContent=`СҰРАҚ ${G.k+1} / ${G.qs.length}`; rich($('#qt'),q.q);
+  $('#fb').textContent=''; $('#fb').className='fb'; $('#next').style.display='none'; const area=$('#area'); area.innerHTML='';
+  $('#combo').textContent=G.combo>=2?`Комбо ×${G.combo}`:'';
+  if(q.radar){ area.appendChild(radar(q)); }
+  else { const order=shuffle(q.o.map((t,j)=>({t,j}))); const box=document.createElement('div'); box.className='opts';
+    order.forEach((o,n)=>{ const b=document.createElement('button'); b.className='opt'; b.dataset.j=o.j; b.innerHTML=`<span class="k">${'ABCD'[n]}</span><span class="m"></span>`; R('\\displaystyle '+o.t.replace(/\\tfrac/g,'\\dfrac'),b.querySelector('.m'));
+      b.onclick=()=>answer(o.j===q.a,b); box.appendChild(b); }); area.appendChild(box); }
+  startTimer(); }
+function startTimer(){ clearInterval(timer); const T=G.time*1000, t0=performance.now(); G.t0=t0;
+  timer=setInterval(()=>{ const left=1-(performance.now()-t0)/T; $('#tbar').style.transform=`scaleX(${Math.max(0,left)})`; if(left<=0){clearInterval(timer);answer(false,null,true)} },100); }
+function lockAll(){ document.querySelectorAll('#area .opt').forEach(b=>b.disabled=true); const r=document.querySelector('#area svg'); if(r) r.style.pointerEvents='none' }
+function answer(ok,btn,timeout){ clearInterval(timer); lockAll(); const q=G.qs[G.k];
+  if(!q.radar){ document.querySelectorAll('#area .opt').forEach(b=>{ if(+b.dataset.j===q.a) b.classList.add('ok') }); if(btn&&!ok) btn.classList.add('no'); }
+  const fb=$('#fb');
+  if(ok){ G.ok++; G.combo++; const bonus=Math.round(50*Math.max(0,1-(performance.now()-G.t0)/(G.time*1000))); const pts=(100+bonus)*(G.combo>=3?2:1); G.score+=pts;
+    fb.className='fb ok'; fb.textContent=`Дұрыс! +${pts} ұпай`+(G.combo>=3?' (комбо ×2)':''); sOk(); }
+  else { G.combo=0; G.lives--; drawShields(); fb.className='fb no'; fb.textContent=timeout?'Уақыт бітті! Қалқан бұзылды.':'Қате. Дұрыс жауап жасылмен белгіленді.'; sNo(); }
+  $('#score').textContent=G.score;
+  const nx=$('#next'); nx.style.display='inline-flex'; nx.textContent=(G.lives<=0||G.k===G.qs.length-1)?'Нәтиже ▸':'Келесі ▸'; nx.focus(); }
+$('#next').onclick=()=>{ if(G.lives<=0||G.k===G.qs.length-1) finish(); else { G.k++; ask(); } };
+$('#quit').onclick=()=>{ clearInterval(timer); renderMap(); show('sMap') };
+function finish(){ const p=G.p; const passed=G.lives>0; const s=!passed?0:(G.ok===G.qs.length?3:G.ok>=6?2:1);
+  if(passed){ save.stars[p.id]=Math.max(save.stars[p.id]||0,s); persist(); sWin(); } $('#totStars').textContent=total();
+  const nextP=P[G.i+1]; const res=$('#res');
+  res.innerHTML=`<div class="qn">${p.name} · ${p.title}</div><h2>${passed?(s===3?'Тамаша ұшу!':'Миссия орындалды!'):'Қалқандар бітті'}</h2>
+   <div class="big">${[0,1,2].map(k=>STAR(k<s)).join('')}</div>
+   <p>Дұрыс жауап: <b>${G.ok}/${G.qs.length}</b> · Ұпай: <b>${G.score}</b></p>
+   <div class="tip" id="tipBox"></div>
+   <div class="acts"><button class="btn ghost" id="again">Қайта ұшу</button>${passed&&nextP?`<button class="btn" id="nextP">Келесі планета: ${nextP.name} ▸</button>`:''}<button class="btn ghost" id="toMap">Картаға</button></div>`;
+  rich($('#tipBox'),'Есте сақта: '+p.tip);
+  $('#again').onclick=()=>start(G.i); $('#toMap').onclick=()=>{renderMap();show('sMap')}; const np=$('#nextP'); if(np) np.onclick=()=>start(G.i+1);
+  if(passed&&!nextP){ res.querySelector('h2').textContent='Барлық планета бағындырылды!' }
+  show('sRes'); }
+
+// radar mini-game
+function radar(q){ const wrap=document.createElement('div'); wrap.className='radar';
+  const S=380,C=S/2,r=150; let pts='';
+  ANG.forEach(d=>{ const a=d*Math.PI/180, x=C+r*Math.cos(a), y=C-r*Math.sin(a);
+    pts+=`<g class="pt" data-d="${d}"><circle cx="${x}" cy="${y}" r="20" fill="transparent"/><circle class="c" cx="${x}" cy="${y}" r="8" fill="#7fe7ff" stroke="#05061a" stroke-width="2"/></g>`; });
+  const svg=`<svg viewBox="0 0 ${S} ${S}"><defs><radialGradient id="rg"><stop offset="0" stop-color="rgba(127,231,255,.18)"/><stop offset="1" stop-color="rgba(127,231,255,0)"/></radialGradient></defs>
+   <circle cx="${C}" cy="${C}" r="${r+20}" fill="url(#rg)"/><line x1="10" y1="${C}" x2="${S-10}" y2="${C}" stroke="rgba(255,255,255,.35)"/><line x1="${C}" y1="10" x2="${C}" y2="${S-10}" stroke="rgba(255,255,255,.35)"/>
+   <circle cx="${C}" cy="${C}" r="${r}" fill="none" stroke="#7fe7ff" stroke-width="2.5"/><text x="${S-22}" y="${C-8}" fill="#9aa3e0" font-size="14" font-family="JUZ40">x</text><text x="${C+8}" y="22" fill="#9aa3e0" font-size="14" font-family="JUZ40">y</text>
+   <g id="ray"></g>${pts}</svg>`;
+  wrap.innerHTML=svg+`<div style="flex:1;min-width:200px;color:#cfd5ff;font-size:15px;line-height:1.5">Шеңбердегі нүктелердің бірін бас. Бұрыш <b style="color:#fff">Ox осінің оң бағытынан</b> сағат тіліне қарсы өлшенеді.</div>`;
+  wrap.querySelectorAll('.pt').forEach(g=>g.addEventListener('click',()=>{ const d=+g.dataset.d; const ok=d===q.deg;
+    const a=q.deg*Math.PI/180; wrap.querySelector('#ray').innerHTML=`<line x1="${C}" y1="${C}" x2="${C+r*Math.cos(a)}" y2="${C-r*Math.sin(a)}" stroke="#6ff0a8" stroke-width="3"/><circle cx="${C+r*Math.cos(a)}" cy="${C-r*Math.sin(a)}" r="11" fill="#6ff0a8"/>`;
+    if(!ok) g.querySelector('.c').setAttribute('fill','#ff5a5f');
+    answer(ok,null); if(!ok) $('#fb').textContent='Қате. Дұрыс нүкте жасыл сәулемен көрсетілді.'; }));
+  return wrap; }
+
+$('#go').onclick=()=>{beep(440,.1);renderMap();show('sMap')};
+renderMap();
+document.addEventListener('keydown',e=>{ if(!$('#sPlay').classList.contains('on'))return; const k='1234abcd'.indexOf(e.key.toLowerCase()); const bs=[...document.querySelectorAll('#area .opt')];
+  if(k>=0&&bs[k%4]&&!bs[k%4].disabled) bs[k%4].click(); if(e.key==='Enter'&&$('#next').style.display!=='none') $('#next').click(); });
+</script>
+</body>
+</html>
